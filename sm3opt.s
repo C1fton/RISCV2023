@@ -513,9 +513,12 @@ sm3_str_group:
 .L24:
 	addi	a4,s0,-368
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a4,a4,a5
-	lw	a5,-24(s0)
+#	slli	a5,a5,2
+#	add	a4,a4,a5
+
+	.insn r 0x33,5,2,a4,a4,a5
+
+#	lw	a5,-24(s0)
 	slli	a5,a5,2
 	mv	a3,a5
 	addi	a5,s0,-96
@@ -538,32 +541,50 @@ sm3_str_group:
 	lw	a5,-24(s0)
 	addi	a5,a5,-16
 	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a0,a4,a5
+#	slli	a5,a5,2
+#	add	a0,a4,a5
+
+	.insn r 0x33,5,2,a0,a4,a5
+
 	lw	a5,-24(s0)
 	addi	a5,a5,-9
-	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a1,a4,a5
+#	addi	a4,s0,-368
+#	slli	a5,a5,2
+#	add	a1,a4,a5
+
+	.insn r 0x33,5,2,a1,a4,a5
+
 	lw	a5,-24(s0)
 	addi	a5,a5,-3
-	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a2,a4,a5
+#	addi	a4,s0,-368
+#	slli	a5,a5,2
+#	add	a2,a4,a5
+
+	.insn r 0x33,5,2,a2,a4,a5
+
 	lw	a5,-24(s0)
 	addi	a5,a5,-13
-	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a3,a4,a5
+#	addi	a4,s0,-368
+#	slli	a5,a5,2
+#	add	a3,a4,a5
+
+	.insn r 0x33,5,2,a3,a4,a5
+
 	lw	a5,-24(s0)
 	addi	a5,a5,-6
-	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a6,a4,a5
-	addi	a4,s0,-368
+#	addi	a4,s0,-368
+#	slli	a5,a5,2
+#	add	a6,a4,a5
+
+	.insn r 0x33,5,2,a6,a4,a5
+
+#	addi	a4,s0,-368
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	mv	a4,a6
 	call	sm3_group_a
 	lw	a5,-24(s0)
@@ -583,13 +604,19 @@ sm3_str_group:
 .L28:
 	addi	a4,s0,-368
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a3,a4,a5
-	lw	a5,-24(s0)
+#	slli	a5,a5,2
+#	add	a3,a4,a5
+
+	.insn r 0x33,5,2,a3,a4,a5
+
+#	lw	a5,-24(s0)
 	addi	a5,a5,4
-	addi	a4,s0,-368
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	addi	a4,s0,-368
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	addi	a4,s0,-96
 	mv	a2,a4
 	mv	a1,a5
@@ -602,12 +629,18 @@ sm3_str_group:
 	lw	a5,-24(s0)
 	slli	a5,a5,3
 	add	a5,a4,a5
+
+#	.insn r 0x33,7,2,a5,a4,a5
+
 	lw	a4,-372(s0)
 	add	a3,a4,a5
 	addi	a4,s0,-368
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	li	a2,4
 	mv	a1,a5
 	mv	a0,a3
@@ -619,6 +652,9 @@ sm3_str_group:
 	lw	a5,-24(s0)
 	slli	a5,a5,3
 	add	a5,a4,a5
+
+#	.insn r 0x33,7,2,a0,a4,a5
+
 	addi	a5,a5,4
 	lw	a4,-372(s0)
 	add	a5,a4,a5
@@ -718,14 +754,20 @@ sm3_str_summ:
 .L34:
 	addi	a4,s0,-540
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a3,a4,a5
+#	slli	a5,a5,2
+#	add	a3,a4,a5
+
+	.insn r 0x33,5,2,a3,a4,a5
+
 	lw	a5,-20(s0)
 	slli	a5,a5,9
 	mv	a4,a5
 	lw	a5,-24(s0)
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	lw	a4,-644(s0)
 	add	a5,a4,a5
 	li	a2,4
@@ -759,11 +801,17 @@ sm3_str_summ:
 	j	.L35
 .L36:
 	lw	a5,-24(s0)
-	slli	a5,a5,1
-	addi	a5,a5,1
+#	slli	a5,a5,1
+#	addi	a5,a5,1
+
+	.insn r 0x33,6,2,a5,a5,a5
+
 	addi	a4,s0,-540
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	mv	a0,a5
 	call	sm3_str_to_long
 	mv	a5,a0
@@ -771,8 +819,11 @@ sm3_str_summ:
 	lw	a5,-24(s0)
 	slli	a5,a5,1
 	addi	a4,s0,-540
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	mv	a0,a5
 	call	sm3_str_to_long
 	mv	a5,a0
@@ -795,14 +846,17 @@ sm3_str_summ:
 	lw	a4,-556(s0)
 	add	a5,a5,a4
 	lw	a4,-24(s0)
-	li	a2,2043428864
-	addi	a2,a2,1305
+#	li	a2,2043428864
+
+	li a0,2043428864
+
+	addi	a2,a0,1305
 	sll	a2,a2,a4
 	li	a1,32
-	lw	a4,-24(s0)
+#	lw	a4,-24(s0)
 	sub	a4,a1,a4
-	li	a1,2043428864
-	addi	a1,a1,1305
+#	li	a1,2043428864
+	addi	a1,a0,1305
 	sra	a4,a1,a4
 	or	a4,a2,a4
 	add	a5,a5,a4
@@ -842,14 +896,14 @@ sm3_str_summ:
 	lw	a3,-556(s0)
 	add	a5,a5,a3
 	lw	a3,-24(s0)
-	li	a2,2043428864
-	addi	a2,a2,1305
+#	li	a2,2043428864
+	addi	a2,a0,1305
 	sll	a2,a2,a3
 	li	a1,32
 	lw	a3,-24(s0)
 	sub	a3,a1,a3
-	li	a1,2043428864
-	addi	a1,a1,1305
+#	li	a1,2043428864
+	addi	a1,a0,1305
 	sra	a3,a1,a3
 	or	a3,a2,a3
 	add	a5,a5,a3
@@ -922,11 +976,17 @@ sm3_str_summ:
 	j	.L37
 .L38:
 	lw	a5,-24(s0)
-	slli	a5,a5,1
-	addi	a5,a5,1
+#	slli	a5,a5,1
+#	addi	a5,a5,1
+
+	.insn r 0x33,6,2,a5,a5,a5
+
 	addi	a4,s0,-540
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	mv	a0,a5
 	call	sm3_str_to_long
 	mv	a5,a0
@@ -934,8 +994,11 @@ sm3_str_summ:
 	lw	a5,-24(s0)
 	slli	a5,a5,1
 	addi	a4,s0,-540
-	slli	a5,a5,2
-	add	a5,a4,a5
+#	slli	a5,a5,2
+#	add	a5,a4,a5
+
+	.insn r 0x33,5,2,a5,a4,a5
+
 	mv	a0,a5
 	call	sm3_str_to_long
 	mv	a5,a0
@@ -962,14 +1025,17 @@ sm3_str_summ:
 	lw	a4,-556(s0)
 	add	a5,a5,a4
 	lw	a4,-24(s0)
-	li	a2,2055708672
-	addi	a2,a2,-630
+#	li	a2,2055708672
+
+	li	a0,2055708672
+
+	addi	a2,a0,-630
 	sll	a2,a2,a4
 	li	a1,32
 	lw	a4,-24(s0)
 	sub	a4,a1,a4
-	li	a1,2055708672
-	addi	a1,a1,-630
+#	li	a1,2055708672
+	addi	a1,a0,-630
 	sra	a4,a1,a4
 	or	a4,a2,a4
 	add	a5,a5,a4
@@ -997,10 +1063,10 @@ sm3_str_summ:
 	and	a4,a3,a5
 #	lw	a3,-556(s0)
 #	not	a3,a5
-	lw	a0,-548(s0)
+	lw	a1,-548(s0)
 #	and	a5,a3,a5
 
-	.insn r 0x33, 4, 2, a5, a3, a0
+	.insn r 0x33, 4, 2, a5, a3, a1
 
 	or	a4,a4,a5
 	lw	a5,-544(s0)
@@ -1015,14 +1081,14 @@ sm3_str_summ:
 	lw	a3,-556(s0)
 	add	a5,a5,a3
 	lw	a3,-24(s0)
-	li	a2,2055708672
-	addi	a2,a2,-630
+#	li	a2,2055708672
+	addi	a2,a0,-630
 	sll	a2,a2,a3
 	li	a1,32
 	lw	a3,-24(s0)
 	sub	a3,a1,a3
-	li	a1,2055708672
-	addi	a1,a1,-630
+#	li	a1,2055708672
+	addi	a1,a0,-630
 	sra	a3,a1,a3
 	or	a3,a2,a3
 	add	a5,a5,a3
