@@ -43,16 +43,20 @@ print_str:
 	sw	zero,-20(s0)
 	j	.L2
 .L3:
-	lw	a5,-20(s0)
+#	lw	a5,-20(s0)
+	lw a6,-20(s0)	# use a6 to store -20(s0)
+
 	lw	a4,-36(s0)
-	add	a5,a4,a5
+	add	a5,a4,a6
 	lbu	a5,0(a5)
 	mv	a1,a5
 	lui	a5,%hi(.LC1)
 	addi	a0,a5,%lo(.LC1)
 	call	printf
-	lw	a5,-20(s0)
-	addi	a5,a5,1
+
+#	lw	a5,-20(s0)
+	
+	addi	a5,a6,1
 	sw	a5,-20(s0)
 .L2:
 	lw	a4,-20(s0)
@@ -60,8 +64,12 @@ print_str:
 	blt	a4,a5,.L3
 	li	a0,10
 	call	putchar
-	li	a5,0
-	mv	a0,a5
+
+#	li	a5,0
+#	mv	a0,a5
+
+	mv a0, x0
+
 	lw	ra,44(sp)
 	lw	s0,40(sp)
 	addi	sp,sp,48
@@ -76,31 +84,67 @@ sm3_long_to_str:
 	addi	s0,sp,48
 	sw	a0,-36(s0)
 	sw	a1,-40(s0)
-	lw	a5,-36(s0)
-	sw	a5,-24(s0)
+
+#	lw	a5,-36(s0)
+#	sw	a5,-24(s0)
+
+	sw a0,-24(s0)
+
 	addi	a5,s0,-24
+	
 	sw	a5,-20(s0)
-	lw	a5,-20(s0)
-	lbu	a4,3(a5)
+
+	lw a6,-20(s0)
+
+#	lw	a5,-20(s0)
+#	lbu	a4,3(a5)
+
+	lbu a4,3(a6)
+
 	lw	a5,-40(s0)
 	sb	a4,0(a5)
-	lw	a5,-40(s0)
-	addi	a5,a5,1
-	lw	a4,-20(s0)
-	lbu	a4,2(a4)
+
+#	lw	a5,-40(s0)
+#	addi	a5,a5,1
+
+	addi	a5,a1,1
+
+#	lw	a4,-20(s0)
+#	lbu	a4,2(a4)
+
+	lbu a4,2(a6)
+
 	sb	a4,0(a5)
-	lw	a5,-40(s0)
-	addi	a5,a5,2
-	lw	a4,-20(s0)
-	lbu	a4,1(a4)
+
+#	lw	a5,-40(s0)
+#	addi	a5,a5,2
+
+	addi	a5,a1,2
+
+#	lw	a4,-20(s0)
+#	lbu	a4,1(a4)
+
+	lbu a4,1(a6)
+
 	sb	a4,0(a5)
-	lw	a5,-40(s0)
-	addi	a5,a5,3
-	lw	a4,-20(s0)
-	lbu	a4,0(a4)
+
+#	lw	a5,-40(s0)
+#	addi	a5,a5,3
+
+	addi	a5,a1,3
+
+#	lw	a4,-20(s0)
+#	lbu	a4,0(a4)
+
+	lbu a4,0(a6)
+
 	sb	a4,0(a5)
-	li	a5,0
-	mv	a0,a5
+
+#	li	a5,0
+#	mv	a0,a5
+
+	mv a0,x0
+
 	lw	s0,44(sp)
 	addi	sp,sp,48
 	jr	ra
@@ -112,28 +156,57 @@ sm3_str_to_long:
 	addi	sp,sp,-48
 	sw	s0,44(sp)
 	addi	s0,sp,48
-	sw	a0,-36(s0)
+	sw	a0,-36(s0)	# a0 = -36(s0)
+
 	sw	zero,-24(s0)
 	addi	a5,s0,-24
+
 	sw	a5,-20(s0)
-	lw	a5,-36(s0)
-	lbu	a4,3(a5)
-	lw	a5,-20(s0)
+#	lw	a5,-36(s0)	
+#	lbu	a4,3(a5)
+
+	lbu a4,3(a0)
+
+#	lw	a5,-20(s0)
+#	sb	a4,0(a5)
+
+	lw a6,-20(s0)
+	sb a4,0(a6)
+
+#	lw	a5,-20(s0)
+#	addi	a5,a5,1
+
+	addi a5,a6,1
+
+#	lw	a4,-36(s0)
+#	lbu	a4,2(a4)
+
+	lbu a4,2(a0)
+
 	sb	a4,0(a5)
-	lw	a5,-20(s0)
-	addi	a5,a5,1
-	lw	a4,-36(s0)
-	lbu	a4,2(a4)
+
+#	lw	a5,-20(s0)
+#	addi	a5,a5,2
+
+	addi a5,a6,2
+
+#	lw	a4,-36(s0)
+#	lbu	a4,1(a4)
+
+	lbu a4,1(a0)
+
 	sb	a4,0(a5)
-	lw	a5,-20(s0)
-	addi	a5,a5,2
-	lw	a4,-36(s0)
-	lbu	a4,1(a4)
-	sb	a4,0(a5)
-	lw	a5,-20(s0)
-	addi	a5,a5,3
-	lw	a4,-36(s0)
-	lbu	a4,0(a4)
+
+#	lw	a5,-20(s0)
+#	addi	a5,a5,3
+
+	addi a5,a6,3
+
+#	lw	a4,-36(s0)
+#	lbu	a4,0(a4)
+
+	lbu a4,0(a0)
+
 	sb	a4,0(a5)
 	lw	a5,-24(s0)
 	mv	a0,a5
@@ -224,92 +297,114 @@ sm3_pad_message:
 	li	a5,119
 	ble	a4,a5,.L15
 .L13:
-#	lw	a5,-24(s0)
-#	srli	a3,a5,24
+#	reverse part
+	# lw	a5,-24(s0)
+	# srli	a3,a5,24
 	lw	a5,-40(s0)
 	addi	a4,a5,1
 	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-#	andi	a4,a3,0xff
-
-	lw a0, -24(s0)
-	.insn r 0x33, 3, 2, a4, a0, zero
-
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	lw  a3, -36(s0) # use a3 to store -36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+	lw  a1, -24(s0) # use a0 to store -24(s0)
+	.insn r 0x33, 3, 2, a4, a1, x0
+	
 	sb	a4,0(a5)
-#	lw	a5,-24(s0)
-	srli	a3,a0,16
+	# lw	a5,-24(s0)
+	# srli	a3,a5,16
 	lw	a5,-40(s0)
 	addi	a4,a5,1
 	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-	andi	a4,a3,0xff
-	sb	a4,0(a5)
-#	lw	a5,-24(s0)
-	srli	a3,a0,8
-	lw	a5,-40(s0)
-	addi	a4,a5,1
-	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-	andi	a4,a3,0xff
-	sb	a4,0(a5)
-	lw	a5,-40(s0)
-	addi	a4,a5,1
-	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-#	lw	a4,-24(s0)
-	andi	a4,a0,0xff
-	sb	a4,0(a5)
-
-#	lw	a5,-28(s0)
-#	srli	a3,a5,24
-	lw	a5,-40(s0)
-	addi	a4,a5,1
-	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-#	andi	a4,a3,0xff
-
-	lw a0, -28(s0)
-	.insn r 0x33, 3, 2, a4, a0, zero
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+	lw  a0, -40(s0)
+	.insn r 0x33, 3, 2, a4, a0, x0
 
 	sb	a4,0(a5)
-#	lw	a5,-28(s0)
-	srli	a3,a0,16
+	# lw	a5,-24(s0)
+	# srli	a3,a5,8
 	lw	a5,-40(s0)
 	addi	a4,a5,1
 	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-	andi	a4,a3,0xff
-	sb	a4,0(a5)
-#	lw	a5,-28(s0)
-	srli	a3,a0,8
-	lw	a5,-40(s0)
-	addi	a4,a5,1
-	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-	andi	a4,a3,0xff
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+	# lw  a0, -24(s0)
+	.insn r 0x33, 3, 2, a4, a1, x0
+	
 	sb	a4,0(a5)
 	lw	a5,-40(s0)
 	addi	a4,a5,1
 	sw	a4,-40(s0)
-	mv	a4,a5
-	lw	a5,-36(s0)
-	add	a5,a5,a4
-#	lw	a4,-28(s0)
-	andi	a4,a0,0xff
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# lw	a4,-24(s0)
+	# andi	a4,a4,0xff
+	andi  a4, a1, 0xff
+	sb	a4,0(a5)
+	# lw	a5,-28(s0)
+	# srli	a3,a5,24
+	lw	a5,-40(s0)
+	addi	a4,a5,1
+	sw	a4,-40(s0)
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+
+	lw  a0, -28(s0) # use a0 to store -28(s0)
+	.insn r 0x33, 3, 2, a4, a0, x0
+
+	sb	a4,0(a5)
+	# lw	a5,-28(s0)
+	# srli	a3,a5,16
+	lw	a5,-40(s0)
+	addi	a4,a5,1
+	sw	a4,-40(s0)
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+	# lw  a0, -28(s0)
+	.insn r 0x33, 3, 2, a4, a0, x0
+
+	sb	a4,0(a5)
+	# lw	a5,-28(s0)
+	# srli	a3,a5,8
+	lw	a5,-40(s0)
+	addi	a4,a5,1
+	sw	a4,-40(s0)
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# andi	a4,a3,0xff
+	# lw  a0, -28(s0)
+	.insn r 0x33, 3, 2, a4, a0, x0
+
+	sb	a4,0(a5)
+	lw	a5,-40(s0)
+	addi	a4,a5,1
+	sw	a4,-40(s0)
+	# mv	a4,a5
+	# lw	a5,-36(s0)
+	# add	a5,a5,a4
+	add  a5, a3, a5
+	# lw	a4,-28(s0)
+	# andi	a4,a4,0xff
+	andi  a4, a0, 0xff
 	sb	a4,0(a5)
 	lw	a5,-40(s0)
 	mv	a0,a5
@@ -361,59 +456,53 @@ sm3_group_a:
 	lw	a5,-36(s0)
 	xor	a4,a4,a5
 	lw	a5,-32(s0)
-#	slli	a3,a5,15
-#	srli	a5,a5,17
-#	or	a5,a5,a3
-
-	li a6, 15
-	.insn r 0x33, 1, 2, a5, a5, a6
-
-	xor	a4,a4,a5
-	lw	a3,-40(s0)
-	lw	a5,-36(s0)
-	xor	a3,a3,a5
-	lw	a5,-32(s0)
-#	slli	a2,a5,15
-#	srli	a5,a5,17
-#	or	a5,a5,a2
-
-	.insn r 0x33, 1, 2, a5, a5, a6
-
-	xor	a5,a3,a5
-#	slli	a3,a5,15
-#	srli	a5,a5,17
-#	or	a5,a5,a3
-
-	.insn r 0x33, 1, 2, a5, a5, a6
+	# slli	a3,a5,15
+	# srli	a5,a5,17
+	# or	a5,a5,a3
+	li  a2, 15
+	.insn r 0x33, 1, 2, a5, a5, a2
 
 	xor	a4,a4,a5
 	lw	a3,-40(s0)
 	lw	a5,-36(s0)
 	xor	a3,a3,a5
 	lw	a5,-32(s0)
-#	slli	a2,a5,15
-#	srli	a5,a5,17
-#	or	a5,a5,a2
-
-	.insn r 0x33, 1, 2, a5, a5, a6
+	# slli	a2,a5,15
+	# srli	a5,a5,17
+	# or	a5,a5,a2
+	.insn r 0x33, 1, 2, a5, a5, a2
 
 	xor	a5,a3,a5
-#	srli	a3,a5,9
-#	slli	a5,a5,23
-#	or	a5,a5,a3
+	# slli	a3,a5,15
+	# srli	a5,a5,17
+	# or	a5,a5,a3
+	.insn r 0x33, 1, 2, a5, a5, a2
 
-	li a3, 9
-	.insn r 0x33, 2, 2, a5, a5, a3
+	xor	a4,a4,a5
+	lw	a3,-40(s0)
+	lw	a5,-36(s0)
+	xor	a3,a3,a5
+	lw	a5,-32(s0)
+	# slli	a2,a5,15
+	# srli	a5,a5,17
+	# or	a5,a5,a2
+	.insn r 0x33, 1, 2, a5, a5, a2
+
+	xor	a5,a3,a5
+	# srli	a3,a5,9
+	# slli	a5,a5,23
+	# or	a5,a5,a3
+	li  a3, 23
+	.insn r 0x33, 1, 2, a5, a5, a3
 
 	xor	a4,a4,a5
 	lw	a5,-28(s0)
-#	slli	a3,a5,7
-#	srli	a5,a5,25
-#	or	a5,a5,a3
-
-	li a3, 7
+	# slli	a3,a5,7
+	# srli	a5,a5,25
+	# or	a5,a5,a3
+	li  a3, 7
 	.insn r 0x33, 1, 2, a5, a5, a3
-
+	
 	xor	a4,a4,a5
 	lw	a5,-24(s0)
 	xor	a5,a4,a5
@@ -513,16 +602,20 @@ sm3_str_group:
 .L24:
 	addi	a4,s0,-368
 	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a4,a4,a5
+	# slli	a5,a5,2
+	# add	a4,a4,a5
 
-	.insn r 0x33,5,2,a4,a4,a5
+    .insn r 0x33, 5, 2, a4, a4, a5
 
-#	lw	a5,-24(s0)
-	slli	a5,a5,2
-	mv	a3,a5
-	addi	a5,s0,-96
-	add	a5,a5,a3
+	lw	a5,-24(s0)
+	# slli	a5,a5,2
+	# mv	a3,a5
+	# addi	a5,s0,-96
+    addi  a3, s0, -96
+	# add	a5,a5,a3
+
+    .insn r 0x33, 5, 2, a5, a3, a5
+
 	li	a2,4
 	mv	a1,a5
 	mv	a0,a4
@@ -538,52 +631,58 @@ sm3_str_group:
 	sw	a5,-24(s0)
 	j	.L25
 .L26:
+	# lw	a5,-24(s0)
+    lw  a6, -24(s0) # use a6 to store -24(s0)
+	# addi	a5,a5,-16
+    addi  a5, a6, -16
+	addi	a4,s0,-368 # use a4 to store imm -368
+	# slli	a5,a5,2
+	# add	a0,a4,a5
+
+    .insn r 0x33, 5, 2, a0, a4, a5
+
+	# lw	a5,-24(s0)
+	# addi	a5,a5,-9
+    addi  a5, a6, -9
+	# addi	a4,s0,-368
+	# slli	a5,a5,2
+	# add	a1,a4,a5
+
+    .insn r 0x33, 5, 2, a1, a4, a5
+
+	# lw	a5,-24(s0)
+	# addi	a5,a5,-3
+    addi  a5, a6, -3
+	# addi	a4,s0,-368
+	# slli	a5,a5,2
+	# add	a2,a4,a5
+
+    .insn r 0x33, 5, 2, a2, a4, a5
+
+	# lw	a5,-24(s0)
+	# addi	a5,a5,-13
+    addi  a5, a6, -13
+	# addi	a4,s0,-368
+	# slli	a5,a5,2
+	# add	a3,a4,a5
+
+    .insn r 0x33, 5, 2, a3, a4, a5
+
+	# lw	a5,-24(s0)
+	# addi	a5,a5,-6
+    addi  a5, a6, -6
+	# addi	a4,s0,-368
+	# slli	a5,a5,2
+	# add	a6,a4,a5
+
+    .insn r 0x33, 5, 2, a6, a4, a5
+
+	# addi	a4,s0,-368
 	lw	a5,-24(s0)
-	addi	a5,a5,-16
-	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a0,a4,a5
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a0,a4,a5
-
-	lw	a5,-24(s0)
-	addi	a5,a5,-9
-#	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a1,a4,a5
-
-	.insn r 0x33,5,2,a1,a4,a5
-
-	lw	a5,-24(s0)
-	addi	a5,a5,-3
-#	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a2,a4,a5
-
-	.insn r 0x33,5,2,a2,a4,a5
-
-	lw	a5,-24(s0)
-	addi	a5,a5,-13
-#	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a3,a4,a5
-
-	.insn r 0x33,5,2,a3,a4,a5
-
-	lw	a5,-24(s0)
-	addi	a5,a5,-6
-#	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a6,a4,a5
-
-	.insn r 0x33,5,2,a6,a4,a5
-
-#	addi	a4,s0,-368
-	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a5,a4,a5
-
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a5
 
 	mv	a4,a6
 	call	sm3_group_a
@@ -603,57 +702,59 @@ sm3_str_group:
 	j	.L27
 .L28:
 	addi	a4,s0,-368
-	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a3,a4,a5
+	# lw	a5,-24(s0)
+	# slli	a5,a5,2
+	# add	a3,a4,a5
 
-	.insn r 0x33,5,2,a3,a4,a5
+	lw  a6, -24(s0) # use a6 to store -24(s0)
+    .insn r 0x33, 5, 2, a3, a4, a6
 
-#	lw	a5,-24(s0)
-	addi	a5,a5,4
-#	addi	a4,s0,-368
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# lw	a5,-24(s0)
+	addi	a5,a6,4
+	# addi	a4,s0,-368
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+	.insn r 0x33, 5, 2, a5, a4, a5
 
 	addi	a4,s0,-96
 	mv	a2,a4
 	mv	a1,a5
 	mv	a0,a3
-	call	sm3_group_b
+	call	sm3_group_b	# a6 change after it
 	lw	a4,-20(s0)
 	lw	a5,-32(s0)
 	mul	a5,a4,a5
 	mv	a4,a5
-	lw	a5,-24(s0)
-	slli	a5,a5,3
-	add	a5,a4,a5
+	# lw	a5,-24(s0)
+	# slli	a5,a5,3
+	# add	a5,a4,a5
 
-#	.insn r 0x33,7,2,a5,a4,a5
+	lw  a6, -24(s0) # reload a6
+    .insn r 0x33, 7, 2, a5, a4, a6
 
 	lw	a4,-372(s0)
 	add	a3,a4,a5
 	addi	a4,s0,-368
-	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# lw	a5,-24(s0)
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
-
+    .insn r 0x33, 5, 2, a5, a4, a6
+	
 	li	a2,4
 	mv	a1,a5
 	mv	a0,a3
-	call	memcpy
+	call	memcpy	# a6 change after it
 	lw	a4,-20(s0)
 	lw	a5,-32(s0)
 	mul	a5,a4,a5
 	mv	a4,a5
 	lw	a5,-24(s0)
-	slli	a5,a5,3
-	add	a5,a4,a5
+	# slli	a5,a5,3
+	# add	a5,a4,a5
 
-#	.insn r 0x33,7,2,a0,a4,a5
+    .insn r 0x33, 7, 2, a5, a4, a5
 
 	addi	a5,a5,4
 	lw	a4,-372(s0)
@@ -693,9 +794,11 @@ sm3_str_summ:
 	sw	ra,652(sp)
 	sw	s0,648(sp)
 	addi	s0,sp,656
-	sw	a0,-644(s0)
+
+	sw	a0,-644(s0) 
 	sw	a1,-648(s0)
 	sw	a2,-652(s0)
+	# initial A[8] B[8] C[8]
 	sw	zero,-572(s0)
 	sw	zero,-568(s0)
 	sw	zero,-564(s0)
@@ -720,16 +823,25 @@ sm3_str_summ:
 	sw	zero,-616(s0)
 	sw	zero,-612(s0)
 	sw	zero,-608(s0)
+
 	lw	a5,-652(s0)
-	srai	a4,a5,31
-	andi	a4,a4,511
-	add	a5,a4,a5
-	srai	a5,a5,9
+#	srai	a4,a5,31
+#	andi	a4,a4,511
+#	add	a5,a4,a5
+#	srai	a5,a5,9
+
+#	int u=len/512
+#	equals to srai a5, a5, 9
+	li a4, 9
+	.insn r 0x33, 2, 2, a5, a5, a4
+
 	sw	a5,-28(s0)
 	sw	zero,-20(s0)
 	sw	zero,-24(s0)
-	lui	a5,%hi(H)
-	addi	a5,a5,%lo(H)
+	lui	a5,%hi(H) 
+	addi	a5,a5,%lo(H) 
+	
+	# memcpy
 	lw	a7,0(a5)
 	lw	a6,4(a5)
 	lw	a0,8(a5)
@@ -738,6 +850,7 @@ sm3_str_summ:
 	lw	a3,20(a5)
 	lw	a4,24(a5)
 	lw	a5,28(a5)
+
 	sw	a7,-604(s0)
 	sw	a6,-600(s0)
 	sw	a0,-596(s0)
@@ -753,34 +866,35 @@ sm3_str_summ:
 	j	.L33
 .L34:
 	addi	a4,s0,-540
-	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a3,a4,a5
+	# lw	a5,-24(s0)
+    lw  a6, -24(s0) # use a6 to store -24(s0)
+	# slli	a5,a5,2
+	# add	a3,a4,a5
 
-	.insn r 0x33,5,2,a3,a4,a5
+    .insn r 0x33, 5, 2, a3, a4, a6
 
 	lw	a5,-20(s0)
 	slli	a5,a5,9
 	mv	a4,a5
-	lw	a5,-24(s0)
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# lw	a5,-24(s0)
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a6
 
 	lw	a4,-644(s0)
 	add	a5,a4,a5
 	li	a2,4
 	mv	a1,a5
 	mv	a0,a3
-	call	memcpy
+	call	memcpy # memcpy(W[j], str+i*512+j*4, 4);
 	lw	a5,-24(s0)
 	addi	a5,a5,1
 	sw	a5,-24(s0)
 .L33:
 	lw	a4,-24(s0)
 	li	a5,127
-	ble	a4,a5,.L34
+	ble	a4,a5,.L34 
 	lw	a5,-604(s0)
 	sw	a5,-572(s0)
 	lw	a5,-600(s0)
@@ -801,16 +915,16 @@ sm3_str_summ:
 	j	.L35
 .L36:
 	lw	a5,-24(s0)
-#	slli	a5,a5,1
-#	addi	a5,a5,1
+	# slli	a5,a5,1
+	# addi	a5,a5,1
 
-	.insn r 0x33,6,2,a5,a5,a5
+    .insn r 0x33, 6, 2, a5, a5, a5
 
 	addi	a4,s0,-540
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a5
 
 	mv	a0,a5
 	call	sm3_str_to_long
@@ -819,10 +933,10 @@ sm3_str_summ:
 	lw	a5,-24(s0)
 	slli	a5,a5,1
 	addi	a4,s0,-540
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a5
 
 	mv	a0,a5
 	call	sm3_str_to_long
@@ -839,39 +953,45 @@ sm3_str_summ:
 #	slli	a4,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a4
-
+#	rotleft
 	li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	lw	a4,-556(s0)
 	add	a5,a5,a4
 	lw	a4,-24(s0)
-#	li	a2,2043428864
-
-	li a0,2043428864
-
-	addi	a2,a0,1305
-	sll	a2,a2,a4
+	# li	a2,2043428864
+	# addi	a2,a2,1305
+	
+	li a0, 2043430169	# use a0 to store (a2 + 1305)
+	
+	# sll	a2,a2,a4
+	sll a2, a0, a4
 	li	a1,32
-#	lw	a4,-24(s0)
+	lw	a4,-24(s0)
 	sub	a4,a1,a4
-#	li	a1,2043428864
-	addi	a1,a0,1305
-	sra	a4,a1,a4
+	# li	a1,2043428864
+	# addi	a1,a1,1305
+	# sra	a4,a1,a4
+	sra a4, a0, a4
+
 	or	a4,a2,a4
 	add	a5,a5,a4
+
 #	slli	a2,a5,7
 #	srli	a4,a5,25
 #	or	a4,a4,a2
-
+#	rotleft
 	li a7, 7
 	.insn r 0x33, 1, 2, a4, a5, a7
 
 	lw	a5,-572(s0)
+
 #	slli	a2,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a2
-
+#	rotleft
+	# li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	xor	a5,a4,a5
@@ -887,31 +1007,37 @@ sm3_str_summ:
 	lw	a5,-544(s0)
 	add	a4,a4,a5
 	lw	a5,-572(s0)
+
 #	slli	a3,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a3
-
+#	rotrleft
+	li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
-
+ 
 	lw	a3,-556(s0)
 	add	a5,a5,a3
 	lw	a3,-24(s0)
-#	li	a2,2043428864
-	addi	a2,a0,1305
-	sll	a2,a2,a3
+	# li	a2,2043428864
+	# addi	a2,a2,1305
+	# sll	a2,a2,a3
+	sll a2, a0, a3
 	li	a1,32
 	lw	a3,-24(s0)
 	sub	a3,a1,a3
-#	li	a1,2043428864
-	addi	a1,a0,1305
-	sra	a3,a1,a3
+	# li	a1,2043428864
+	# addi	a1,a1,1305
+	# sra	a3,a1,a3
+	sra a3, a0, a3
 	or	a3,a2,a3
 	add	a5,a5,a3
+
 #	slli	a3,a5,7
 #	srli	a5,a5,25
 #	or	a5,a5,a3
-
-	.insn r 0x33, 1, 2, a5, a5, a7
+#	rotleft
+	li a6, 7
+	.insn r 0x33, 1, 2, a5, a5, a6
 
 	add	a4,a4,a5
 	lw	a5,-632(s0)
@@ -920,43 +1046,48 @@ sm3_str_summ:
 	lw	a5,-548(s0)
 	sw	a5,-544(s0)
 	lw	a5,-552(s0)
+
 #	srli	a4,a5,13
 #	slli	a5,a5,19
 #	or	a5,a5,a4
-
-	li a4, 13
-	.insn r 0x33, 2, 2, a5, a5, a4
+#	rotright
+	li a6, 13
+	.insn r 0x33, 2, 2, a5, a5, a6
 
 	sw	a5,-548(s0)
 	lw	a5,-556(s0)
 	sw	a5,-552(s0)
 	lw	a4,-624(s0)
 	lw	a5,-624(s0)
+
 #	slli	a3,a5,9
 #	srli	a5,a5,23
 #	or	a5,a5,a3
-
+#	rotleft
 	li a6, 9
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	xor	a4,a4,a5
 	lw	a5,-624(s0)
+
 #	srli	a3,a5,15
 #	slli	a5,a5,17
 #	or	a5,a5,a3
-
-	li a3, 15
-	.insn r 0x33, 2, 2, a5, a5, a3
+#	rotright
+	li a6, 15
+	.insn r 0x33, 2, 2, a5, a5, a6
 
 	xor	a5,a4,a5
 	sw	a5,-556(s0)
 	lw	a5,-564(s0)
 	sw	a5,-560(s0)
 	lw	a5,-568(s0)
+
 #	slli	a4,a5,9
 #	srli	a5,a5,23
 #	or	a5,a5,a4
-
+#	rotleft
+	li a6, 9
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	sw	a5,-564(s0)
@@ -967,37 +1098,38 @@ sm3_str_summ:
 	lw	a5,-24(s0)
 	addi	a5,a5,1
 	sw	a5,-24(s0)
-.L35:
+.L35: 
 	lw	a4,-24(s0)
 	li	a5,15
-	ble	a4,a5,.L36
+	ble	a4,a5,.L36 
 	li	a5,16
 	sw	a5,-24(s0)
-	j	.L37
-.L38:
+	j	.L37 
+.L38: 
 	lw	a5,-24(s0)
-#	slli	a5,a5,1
-#	addi	a5,a5,1
+	# slli	a5,a5,1
+	# addi	a5,a5,1
 
-	.insn r 0x33,6,2,a5,a5,a5
+    .insn r 0x33, 6, 2, a5, a5, a5
 
 	addi	a4,s0,-540
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a5
 
 	mv	a0,a5
 	call	sm3_str_to_long
 	mv	a5,a0
 	sw	a5,-636(s0)
+
 	lw	a5,-24(s0)
 	slli	a5,a5,1
 	addi	a4,s0,-540
-#	slli	a5,a5,2
-#	add	a5,a4,a5
+	# slli	a5,a5,2
+	# add	a5,a4,a5
 
-	.insn r 0x33,5,2,a5,a4,a5
+    .insn r 0x33, 5, 2, a5, a4, a5
 
 	mv	a0,a5
 	call	sm3_str_to_long
@@ -1018,39 +1150,42 @@ sm3_str_summ:
 #	slli	a4,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a4
-
+#	rotleft
 	li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	lw	a4,-556(s0)
 	add	a5,a5,a4
 	lw	a4,-24(s0)
-#	li	a2,2055708672
+	# li	a2,2055708672
+	# addi	a2,a2,-630
 
-	li	a0,2055708672
+	li a0, 2055708042	# use a0 to store (a2 - 630)
 
-	addi	a2,a0,-630
-	sll	a2,a2,a4
+	# sll	a2,a2,a4
+	sll a2, a0, a4
 	li	a1,32
 	lw	a4,-24(s0)
 	sub	a4,a1,a4
-#	li	a1,2055708672
-	addi	a1,a0,-630
-	sra	a4,a1,a4
+	# li	a1,2055708672
+	# addi	a1,a1,-630
+	# sra	a4,a1,a4
+	sra a4, a0, a4
 	or	a4,a2,a4
 	add	a5,a5,a4
 #	slli	a2,a5,7
 #	srli	a4,a5,25
 #	or	a4,a4,a2
-
-	li a7, 7
-	.insn r 0x33, 1, 2, a4, a5, a7
+#	rotleft
+	li a6, 7
+	.insn r 0x33, 1, 2, a4, a5, a6
 
 	lw	a5,-572(s0)
 #	slli	a2,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a2
-
+#	rotleft
+	li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	xor	a5,a4,a5
@@ -1058,45 +1193,56 @@ sm3_str_summ:
 	lw	a5,-636(s0)
 	add	a5,a4,a5
 	sw	a5,-628(s0)
-	lw	a3,-556(s0)
-	lw	a5,-552(s0)
-	and	a4,a3,a5
-#	lw	a3,-556(s0)
-#	not	a3,a5
-	lw	a1,-548(s0)
-#	and	a5,a3,a5
+#	lw	a4,-556(s0)
 
-	.insn r 0x33, 4, 2, a5, a3, a1
+	lw a3,-556(s0)
+	lw	a5,-552(s0)
+#	and	a4,a4,a5
+	and a4,a3,a5
+
+#	lw	a5,-556(s0)
+#	not	a3,a5
+#	lw	a5,-548(s0)
+#	and	a5,a3,a5
+#	notand
+	lw a6,-548(s0)
+	.insn r 0x33,4,2,a5,a3,a6
 
 	or	a4,a4,a5
 	lw	a5,-544(s0)
 	add	a4,a4,a5
 	lw	a5,-572(s0)
+
 #	slli	a3,a5,12
 #	srli	a5,a5,20
 #	or	a5,a5,a3
-
+#	rotleft
+	li a6, 12
 	.insn r 0x33, 1, 2, a5, a5, a6
 
 	lw	a3,-556(s0)
 	add	a5,a5,a3
 	lw	a3,-24(s0)
-#	li	a2,2055708672
-	addi	a2,a0,-630
-	sll	a2,a2,a3
+	# li	a2,2055708672
+	# addi	a2,a2,-630
+	# sll	a2,a2,a3
+	sll a2, a0, a3
 	li	a1,32
 	lw	a3,-24(s0)
 	sub	a3,a1,a3
-#	li	a1,2055708672
-	addi	a1,a0,-630
-	sra	a3,a1,a3
+	# li	a1,2055708672
+	# addi	a1,a1,-630
+	# sra	a3,a1,a3
+	sra a3, a0, a3
 	or	a3,a2,a3
 	add	a5,a5,a3
+
 #	slli	a3,a5,7
 #	srli	a5,a5,25
 #	or	a5,a5,a3
-
-	.insn r 0x33, 1, 2, a5, a5, a7
+#	rotleft
+	li a6, 7
+	.insn r 0x33, 1, 2, a5, a5, a6
 
 	add	a4,a4,a5
 	lw	a5,-632(s0)
@@ -1108,9 +1254,9 @@ sm3_str_summ:
 #	srli	a4,a5,13
 #	slli	a5,a5,19
 #	or	a5,a5,a4
-
-	li a4, 13
-	.insn r 0x33, 2, 2, a5, a5, a4
+#	rotright
+	li a6, 13
+	.insn r 0x33, 2, 2, a5, a5, a6
 
 	sw	a5,-548(s0)
 	lw	a5,-556(s0)
@@ -1120,18 +1266,18 @@ sm3_str_summ:
 #	slli	a3,a5,9
 #	srli	a5,a5,23
 #	or	a5,a5,a3
-
-	li a6, 9
-	.insn r 0x33, 1, 2, a5, a5, a6
+#	rotleft
+	li a7, 9	# use a7 to save imm 9
+	.insn r 0x33, 1, 2, a5, a5, a7
 
 	xor	a4,a4,a5
 	lw	a5,-624(s0)
 #	srli	a3,a5,15
 #	slli	a5,a5,17
 #	or	a5,a5,a3
-
-	li a3, 15
-	.insn r 0x33, 2, 2, a5, a5, a3
+#	rotright
+	li a6,15
+	.insn r 0x33, 2, 2, a5, a5, a6
 
 	xor	a5,a4,a5
 	sw	a5,-556(s0)
@@ -1141,8 +1287,8 @@ sm3_str_summ:
 #	slli	a4,a5,9
 #	srli	a5,a5,23
 #	or	a5,a5,a4
-
-	.insn r 0x33, 1, 2, a5, a5, a6
+#	rotleft
+	.insn r 0x33, 1, 2, a5, a5, a7
 
 	sw	a5,-564(s0)
 	lw	a5,-572(s0)
@@ -1153,9 +1299,9 @@ sm3_str_summ:
 	addi	a5,a5,1
 	sw	a5,-24(s0)
 .L37:
-	lw	a4,-24(s0)
+	lw	a4,-24(s0) 
 	li	a5,63
-	ble	a4,a5,.L38
+	ble	a4,a5,.L38 
 	lw	a4,-604(s0)
 	lw	a5,-572(s0)
 	xor	a5,a4,a5
@@ -1191,7 +1337,7 @@ sm3_str_summ:
 	lw	a5,-20(s0)
 	addi	a5,a5,1
 	sw	a5,-20(s0)
-.L32:
+.L32: 
 	lw	a4,-20(s0)
 	lw	a5,-28(s0)
 	blt	a4,a5,.L39
@@ -1264,11 +1410,13 @@ main:
 	sw	ra,60(sp)
 	sw	s0,56(sp)
 	addi	s0,sp,64
-	li	t0,-4096
-	add	sp,sp,t0
-	li	a5,-4096
+	li	a3,-4096	# use a3 to replace t0(-4096)
+	# add	sp,sp,t0
+	add  sp, sp, a3
+	# li	a5,-4096
 	addi	a4,s0,-16
-	add	a5,a4,a5
+	# add	a5,a4,a5
+	add  a5, a4, a3
 	sw	zero,-8(a5)
 	addi	a4,a5,-4
 	li	a5,4096
